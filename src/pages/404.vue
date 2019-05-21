@@ -1,0 +1,3 @@
+<template>
+    <h1>Ooops - Page Not Found</h1>
+</template>
