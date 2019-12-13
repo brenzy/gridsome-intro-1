@@ -1,62 +1,75 @@
 <template>
   <div class="layout">
-    <header class="header">
-      <strong>
-        <g-link exact to="/">{{ $static.metaData.siteName }}</g-link>
-      </strong>
-      <nav class="nav">
-        <g-link exact class="nav__link" to="/">Home</g-link>
-        <g-link class="nav__link" to="/about">About</g-link>
-        <g-link class="nav__link" to="/blog">Blog</g-link>
-        <g-link class="nav__link" to="/products">Products</g-link>
-      </nav>
-    </header>
-    <slot/>
+    <Header></Header>
+    <main>
+      <slot/>
+    </main>
   </div>
 </template>
 
-<static-query>
-query {
-  metaData {
-    siteName
+<style lang="scss">
+  * {
+    box-sizing: border-box;
+    margin: 0;
   }
-}
-</static-query>
 
-<style>
-body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  margin:0;
-  padding:0;
-  line-height: 1.5;
-}
+  /* More info: https://bit.ly/2PsCnzk */
+  * + * {
+    margin-top: 1rem;
+  }
 
-.body {
-  background: #f3f7f9;
-}
+  html,
+  body {
+    margin: 0;
+    color: #555;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-size: 18px;
+    line-height: 1.4;
 
-/* class applied to active glink route */
-/* use exact for home page */
-.active {
-  color: #f66;
-}
+  /* remove margin for the main div that Gatsby mounts into */
+  > div {
+    margin-top: 0;
+  }
 
-.layout {
-  max-width: 760px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #222;
+    line-height: 1.1;
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  height: 80px;
-}
+  + * {
+    margin-top: 0.5rem;
+  }
 
-.nav__link {
-  margin-left: 20px;
-}
+  }
+  strong {
+    color: #222;
+  }
+
+  li {
+    margin-top: 0.25rem;
+  }
+
+
+  main {
+    margin: 32px auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    max-width: 600px;
+  }
+
+
 </style>
+<script>
+  import Header from "../components/Header";
+
+  export default {
+    components: {Header}
+  }
+</script>

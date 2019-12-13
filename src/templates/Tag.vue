@@ -19,24 +19,26 @@
   </Layout>
 </template>
 
+
 <page-query>
-  query ($id: String!) {
+  query Tag ($id: ID!) {
     tag (id: $id) {
       title
       belongsTo {
         edges {
           node {
-            ... on Post {
+            ...on Post {
               id
               title
-              date (format: "MMMM Do, YYYY")
+              path
+              date (format: "D. MMMM YYYY")
               excerpt
               tags {
                 id
                 path
               }
               timeToRead
-              path
+              content
               cover_image (width: 1000, height: 300)
             }
           }
