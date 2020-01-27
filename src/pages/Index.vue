@@ -1,37 +1,87 @@
 <template>
-  <Layout>
-    
-    <!-- Learn how to use images here: https://gridsome.org/docs/images -->
-    <g-image alt="Example image" src="~/assets/images/favicon.png" height="200" width="200" fit="cover"/>
-    
-    <h1>Hello!</h1>
-   
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur excepturi labore tempore expedita, et iste tenetur suscipit explicabo! Dolores, aperiam non officia eos quod asperiores
-    </p>
-
-    <p class="home-links">
-      <a href="https://gridsome.org/docs" target="_blank" rel="noopener">Gridsome Docs</a>
-      <a href="https://github.com/gridsome/gridsome" target="_blank" rel="noopener">GitHub</a>
-    </p>
-
-    <Footer></Footer>
-
-  </Layout>
+  <div>
+    <Hero></Hero>
+    <Layout>
+      <template v-for="edge in $page.allPost.edges">
+        <PostPreview :post="edge"></PostPreview>
+      </template>
+      <Pager :info="$page.allPost.pageInfo" linkClass="pager"/>
+      <Insta :posts="$page.photos.edges"></Insta>
+    </Layout>
+  </div>
 </template>
 
+// Page Queries can only be done from pages
+<page-query>
+  query ($page: Int) {
+    allPost (perPage: 2, page:$page) @paginate {
+      pageInfo {
+        totalPages
+        currentPage
+      }
+      edges {
+        node {
+          id
+          title
+          date (format: "MMMM Do, YYYY")
+          excerpt
+          tags {
+            id
+            path
+          }
+          timeToRead
+          path
+          cover_image (width: 75)
+        }
+      }
+    }
+    photos: allInstagramPhoto
+    {
+      edges
+      {
+        node
+        {
+          id
+          shortcode
+          display_url
+          edge_media_to_caption
+          {
+            edges
+            {
+              node
+              {
+                text
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</page-query>
+
 <script>
-import Footer from '~/components/Footer.vue';
+
+import PostPreview from '~/components/PostPreview.vue';
+import Hero from '~/components/Hero.vue';
+import { Pager } from 'gridsome';
+import Insta from '~/components/Insta.vue';
+
 export default {
-  components: { Footer },
+  components: { Hero, PostPreview, Pager, Insta },
   metaInfo: {
-    title: 'Hello, world!'
+    title: 'Home Page'
   }
 }
 </script>
 
-<style>
-.home-links a {
-  margin-right: 1rem;
-}
+<style lang="scss">
+  .home-links a {
+    margin-right: 1rem;
+  }
+  .pager {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    padding: 40px 20px;
+  }
 </style>
